@@ -16,11 +16,20 @@ export interface IMessageState {
   setReplyText: (id: string | null) => void;
   setMessageEmoji: (id: string, emoji: FeedbackEmoji | undefined) => void;
   setActiveTooltipMessageId: (id: string | null) => void;
+  setMessageFeedback: (id: string, feedbackType: 'liked' | 'disliked') => void;
+  setMessageFeedbackReason: (
+    id: string,
+    feedbackReason: FeedbackChips | undefined,
+  ) => void;
 }
 
 const initialState: Omit<
   IMessageState,
-  'setReplyText' | 'setMessageEmoji' | 'setActiveTooltipMessageId'
+  | 'setReplyText'
+  | 'setMessageEmoji'
+  | 'setActiveTooltipMessageId'
+  | 'setMessageFeedback'
+  | 'setMessageFeedbackReason'
 > = {
   messageData: [
     {
@@ -71,13 +80,7 @@ const initialState: Omit<
       hasFeedback: false,
     },
   ],
-  replyText: {
-    id: '4',
-    sender: Sender.HUMAN_ASTROLOGER,
-    text: 'I see the same. Look at your 6th house; Saturn is transiting there. This is why you feel the workload is heavy.',
-    timestamp: 1734681720000,
-    type: 'text',
-  },
+  replyText: null,
   activeTooltipMessageId: null,
 };
 
@@ -102,5 +105,30 @@ export const useChatStore = create<IMessageState>(set => ({
   },
   setActiveTooltipMessageId: (id: string | null) => {
     set({ activeTooltipMessageId: id });
+  },
+  setMessageFeedback: (id: string, feedbackType: 'liked' | 'disliked') => {
+    set(state => ({
+      messageData: state.messageData.map(message =>
+        message.id === id
+          ? {
+              ...message,
+              feedbackType,
+              hasFeedback: true,
+              feedbackReason:
+                feedbackType === 'liked' ? undefined : message.feedbackReason,
+            }
+          : message,
+      ),
+    }));
+  },
+  setMessageFeedbackReason: (
+    id: string,
+    feedbackReason: FeedbackChips | undefined,
+  ) => {
+    set(state => ({
+      messageData: state.messageData.map(message =>
+        message.id === id ? { ...message, feedbackReason } : message,
+      ),
+    }));
   },
 }));

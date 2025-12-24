@@ -1,7 +1,5 @@
 import {
   useSharedValue,
-  withSpring,
-  runOnJS,
   withTiming,
   useAnimatedStyle,
 } from 'react-native-reanimated';
@@ -23,13 +21,17 @@ export const usePanGesture = ({
   const showReplyIcon = useSharedValue(0);
 
   const SWIPE_THRESHOLD = 100;
+  const MAX_SWIPE = 150;
 
   const panGesture = Gesture.Pan()
     .onUpdate(event => {
       if (isLeft) {
-        translateX.value = Math.max(0, event.translationX);
+        translateX.value = Math.max(0, Math.min(MAX_SWIPE, event.translationX));
       } else {
-        translateX.value = Math.min(0, event.translationX);
+        translateX.value = Math.min(
+          0,
+          Math.max(-MAX_SWIPE, event.translationX),
+        );
       }
 
       if (Math.abs(translateX.value) > SWIPE_THRESHOLD) {
