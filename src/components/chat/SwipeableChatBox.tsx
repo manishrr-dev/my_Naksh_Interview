@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   IMessageData,
   Sender,
@@ -26,11 +26,13 @@ const SwipeableChatBox: React.FC<SwipeableChatBoxProps> = ({ message }) => {
     setMessageEmoji,
     activeTooltipMessageId,
     setActiveTooltipMessageId,
+    activeFeedbackDropdownMessageId,
+    setActiveFeedbackDropdownMessageId,
     setMessageFeedback,
     setMessageFeedbackReason,
   } = useChatStore();
   const showEmojiTooltip = activeTooltipMessageId === message.id;
-  const [showFeedbackDropdown, setShowFeedbackDropdown] = useState(false);
+  const showFeedbackDropdown = activeFeedbackDropdownMessageId === message.id;
 
   // writing this to calculate the alignmnet of chat box
   const isLeft =
@@ -75,26 +77,33 @@ const SwipeableChatBox: React.FC<SwipeableChatBoxProps> = ({ message }) => {
 
   const handleLike = () => {
     setMessageFeedback(message.id, 'liked');
-    setShowFeedbackDropdown(false);
+    setActiveFeedbackDropdownMessageId(null);
   };
 
   const handleDislike = () => {
     if (message.feedbackType === 'disliked') {
       // Toggle dropdown if already disliked
-      setShowFeedbackDropdown(!showFeedbackDropdown);
+      setActiveFeedbackDropdownMessageId(
+        showFeedbackDropdown ? null : message.id,
+      );
     } else {
       setMessageFeedback(message.id, 'disliked');
-      setShowFeedbackDropdown(true);
+      setActiveFeedbackDropdownMessageId(message.id);
     }
   };
 
   const handleFeedbackReasonSelect = (reason: FeedbackChips) => {
     setMessageFeedbackReason(message.id, reason);
-    setShowFeedbackDropdown(false);
+    setActiveFeedbackDropdownMessageId(null);
   };
 
   return (
-    <View style={[styles.wrapper, showEmojiTooltip && styles.wrapperElevated]}>
+    <View
+      style={[
+        styles.wrapper,
+        (showEmojiTooltip || showFeedbackDropdown) && styles.wrapperElevated,
+      ]}
+    >
       <Animated.View
         style={[
           styles.replyIconContainer,
@@ -124,16 +133,23 @@ const SwipeableChatBox: React.FC<SwipeableChatBoxProps> = ({ message }) => {
           )}
 
           {/* AI Feedback Buttons */}
-          {isAIMessage && !message.feedbackType && (
-            <View style={styles.feedbackButtons}>
-              <Pressable onPress={handleLike} style={styles.feedbackButton}>
-                <Text style={styles.feedbackButtonText}>👍</Text>
-              </Pressable>
-              <Pressable onPress={handleDislike} style={styles.feedbackButton}>
-                <Text style={styles.feedbackButtonText}>👎</Text>
-              </Pressable>
-            </View>
-          )}
+          {isAIMessage &&
+            !(
+              message.feedbackType === 'liked' ||
+              (message.feedbackType === 'disliked' && message.feedbackReason)
+            ) && (
+              <View style={styles.feedbackButtons}>
+                <Pressable onPress={handleLike} style={styles.feedbackButton}>
+                  <Text style={styles.feedbackButtonText}>👍</Text>
+                </Pressable>
+                <Pressable
+                  onPress={handleDislike}
+                  style={styles.feedbackButton}
+                >
+                  <Text style={styles.feedbackButtonText}>👎</Text>
+                </Pressable>
+              </View>
+            )}
 
           {/* Feedback Dropdown */}
           {showFeedbackDropdown && message.feedbackType === 'disliked' && (

@@ -11,11 +11,13 @@ export interface IMessageState {
   messageData: IMessageData[];
   replyText: IMessageData | null;
   activeTooltipMessageId: string | null;
+  activeFeedbackDropdownMessageId: string | null;
 
   // actions
   setReplyText: (id: string | null) => void;
   setMessageEmoji: (id: string, emoji: FeedbackEmoji | undefined) => void;
   setActiveTooltipMessageId: (id: string | null) => void;
+  setActiveFeedbackDropdownMessageId: (id: string | null) => void;
   setMessageFeedback: (id: string, feedbackType: 'liked' | 'disliked') => void;
   setMessageFeedbackReason: (
     id: string,
@@ -28,6 +30,7 @@ const initialState: Omit<
   | 'setReplyText'
   | 'setMessageEmoji'
   | 'setActiveTooltipMessageId'
+  | 'setActiveFeedbackDropdownMessageId'
   | 'setMessageFeedback'
   | 'setMessageFeedbackReason'
 > = {
@@ -79,9 +82,26 @@ const initialState: Omit<
       type: 'text',
       hasFeedback: false,
     },
+    {
+      id: '7',
+      sender: Sender.AI_ASTROLOGER,
+      text: 'I suggest chanting the Shani Mantra 108 times on Saturdays. Would you like the specific mantra text?',
+      timestamp: 1734681840000,
+      type: 'text',
+      hasFeedback: false,
+    },
+    {
+      id: '8',
+      sender: Sender.AI_ASTROLOGER,
+      text: 'I suggest chanting the Shani Mantra 108 times on Saturdays. Would you like the specific mantra text?',
+      timestamp: 1734681840000,
+      type: 'text',
+      hasFeedback: false,
+    },
   ],
   replyText: null,
   activeTooltipMessageId: null,
+  activeFeedbackDropdownMessageId: null,
 };
 
 export const useChatStore = create<IMessageState>(set => ({
@@ -105,6 +125,9 @@ export const useChatStore = create<IMessageState>(set => ({
   },
   setActiveTooltipMessageId: (id: string | null) => {
     set({ activeTooltipMessageId: id });
+  },
+  setActiveFeedbackDropdownMessageId: (id: string | null) => {
+    set({ activeFeedbackDropdownMessageId: id });
   },
   setMessageFeedback: (id: string, feedbackType: 'liked' | 'disliked') => {
     set(state => ({

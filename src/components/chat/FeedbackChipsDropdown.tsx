@@ -13,7 +13,11 @@ interface FeedbackChipsDropdownProps {
   isLeft: boolean;
 }
 
-const FEEDBACK_OPTIONS: FeedbackChips[] = ['Inaccurate', 'Too vague', 'Too long'];
+const FEEDBACK_OPTIONS: FeedbackChips[] = [
+  'Inaccurate',
+  'Too vague',
+  'Too long',
+];
 
 const FeedbackChipsDropdown: React.FC<FeedbackChipsDropdownProps> = ({
   onSelect,
@@ -23,7 +27,7 @@ const FeedbackChipsDropdown: React.FC<FeedbackChipsDropdownProps> = ({
   const animatedOpacity = useSharedValue(0);
 
   useEffect(() => {
-    animatedHeight.value = withTiming(120, {
+    animatedHeight.value = withTiming(100, {
       duration: 300,
       easing: Easing.out(Easing.ease),
     });
@@ -48,7 +52,7 @@ const FeedbackChipsDropdown: React.FC<FeedbackChipsDropdownProps> = ({
     >
       <Text style={styles.title}>Why did you dislike?</Text>
       <View style={styles.chipsContainer}>
-        {FEEDBACK_OPTIONS.map((option) => (
+        {FEEDBACK_OPTIONS.map(option => (
           <Pressable
             key={option}
             style={styles.chip}
@@ -66,18 +70,13 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: '100%',
-    marginTop: 8,
+    marginTop: 15,
     backgroundColor: '#fff',
     borderRadius: 8,
     padding: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5,
     overflow: 'hidden',
     zIndex: 1000,
-    minWidth: 200,
   },
   containerLeft: {
     left: 0,
@@ -111,4 +110,3 @@ const styles = StyleSheet.create({
 });
 
 export default FeedbackChipsDropdown;
-

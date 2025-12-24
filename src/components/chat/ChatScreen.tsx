@@ -28,6 +28,7 @@ const ChatScreen = () => {
           data={messageData}
           renderItem={renderItem}
           keyExtractor={item => item.id}
+          contentContainerStyle={styles.flatListContentContainer}
         />
       </View>
       <ChatInput />
@@ -55,6 +56,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ede6da',
     paddingHorizontal: 10,
+  },
+  flatListContentContainer: {
+    paddingBottom: 100,
   },
 });
 

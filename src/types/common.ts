@@ -4,7 +4,7 @@ export type MessageType =
   | 'system'
   | 'ai_astrologer';
 
-export type FeedbackChips = 'inaccurate' | 'too vague' | 'too long';
+export type FeedbackChips = 'Inaccurate' | 'Too vague' | 'Too long';
 
 export type FeedbackEmoji = '👍' | '👎' | '❤️' | '😂' | '😢' | '🙏';
 

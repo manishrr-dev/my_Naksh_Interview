@@ -1,5 +1,6 @@
 import {
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -37,7 +38,9 @@ const ChatInput = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <View style={styles.inputContainer}>
         {/*  reply text container on top of the input */}
         {replyText && <ReplyContainer />}
