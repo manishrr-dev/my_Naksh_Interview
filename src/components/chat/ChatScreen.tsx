@@ -1,16 +1,24 @@
 import { View, Text, Pressable, StyleSheet, FlatList } from 'react-native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '../../types/navigation';
 import { IMessageData } from '../../types/common';
 import ChatInput from './ChatInput';
 import SwipeableChatBox from './SwipeableChatBox';
 import { useChatStore } from '../../store/chatStore';
+import StarRating from './starrating/StarRating';
 
 const ChatScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const { messageData } = useChatStore();
-  const navigateToHome = () => {
+  const [showRatingOverlay, setShowRatingOverlay] = useState(false);
+
+  const handleEndSession = () => {
+    setShowRatingOverlay(true);
+  };
+
+  const handleRatingClose = () => {
+    setShowRatingOverlay(false);
     navigation.navigate('Home');
   };
 
@@ -20,7 +28,7 @@ const ChatScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.navButton} onPress={navigateToHome}>
+      <Pressable style={styles.navButton} onPress={handleEndSession}>
         <Text style={styles.buttonText}>End Your Session</Text>
       </Pressable>
       <View style={styles.chatContainer}>
@@ -32,6 +40,7 @@ const ChatScreen = () => {
         />
       </View>
       <ChatInput />
+      <StarRating visible={showRatingOverlay} onClose={handleRatingClose} />
     </View>
   );
 };
