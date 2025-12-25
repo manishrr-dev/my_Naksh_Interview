@@ -24,6 +24,8 @@ export const usePanGesture = ({
   const MAX_SWIPE = 150;
 
   const panGesture = Gesture.Pan()
+    .activeOffsetX([-10, 10])
+    .failOffsetY([-10, 10])
     .onUpdate(event => {
       if (isLeft) {
         translateX.value = Math.max(0, Math.min(MAX_SWIPE, event.translationX));

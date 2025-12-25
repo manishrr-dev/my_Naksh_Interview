@@ -15,6 +15,7 @@ export interface IMessageState {
 
   // actions
   setReplyText: (id: string | null) => void;
+  addMessage: (message: IMessageData) => void;
   setMessageEmoji: (id: string, emoji: FeedbackEmoji | undefined) => void;
   setActiveTooltipMessageId: (id: string | null) => void;
   setActiveFeedbackDropdownMessageId: (id: string | null) => void;
@@ -28,6 +29,7 @@ export interface IMessageState {
 const initialState: Omit<
   IMessageState,
   | 'setReplyText'
+  | 'addMessage'
   | 'setMessageEmoji'
   | 'setActiveTooltipMessageId'
   | 'setActiveFeedbackDropdownMessageId'
@@ -114,6 +116,11 @@ export const useChatStore = create<IMessageState>(set => ({
           : state.messageData.find(
               (message: IMessageData) => message.id === id,
             ) || null,
+    }));
+  },
+  addMessage: (message: IMessageData) => {
+    set(state => ({
+      messageData: [...state.messageData, message],
     }));
   },
   setMessageEmoji: (id: string, emoji: FeedbackEmoji | undefined) => {

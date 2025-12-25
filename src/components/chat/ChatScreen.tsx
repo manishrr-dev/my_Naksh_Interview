@@ -28,9 +28,20 @@ const ChatScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.navButton} onPress={handleEndSession}>
-        <Text style={styles.buttonText}>End Your Session</Text>
-      </Pressable>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Chat</Text>
+        <View style={styles.headerRight}>
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>AA</Text>
+            </View>
+            <Text style={styles.userName}>Acharya Abhishek</Text>
+          </View>
+          <Pressable style={styles.endButton} onPress={handleEndSession}>
+            <Text style={styles.endButtonText}>End</Text>
+          </Pressable>
+        </View>
+      </View>
       <View style={styles.chatContainer}>
         <FlatList<IMessageData>
           data={messageData}
@@ -49,16 +60,63 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  navButton: {
-    padding: 15,
-    minWidth: 120,
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#12ba00',
-    opacity: 0.8,
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e9ecef',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1c1c1e',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  avatarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#9ca3af',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  userName: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#1c1c1e',
+  },
+  endButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#ff3b30',
+    borderRadius: 6,
+  },
+  endButtonText: {
+    color: '#ffffff',
+    fontSize: 14,
     fontWeight: '600',
   },
   chatContainer: {

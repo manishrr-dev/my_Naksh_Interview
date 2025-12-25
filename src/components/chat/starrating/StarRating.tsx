@@ -196,26 +196,23 @@ const styles = StyleSheet.create({
   ratingPrompt: {
     fontSize: 18,
     color: '#333',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   starsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   starButton: {
     padding: 5,
   },
   starEmoji: {
-    fontSize: 48,
-    lineHeight: 48,
+    fontSize: 42,
     width: 48,
     textAlign: 'center',
   },
   messageContainer: {
-    position: 'absolute',
-    bottom: 80,
     alignItems: 'center',
   },
   thanksMessage: {
